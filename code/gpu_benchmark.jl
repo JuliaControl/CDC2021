@@ -43,7 +43,7 @@ end
 
 𝕗 = (14, "Computer Modern")
 gr(titlefont=𝕗, tickfont=𝕗, legendfont=𝕗, guidefont=𝕗, grid=false)
-fig = plot(layout=(2, 1), size=(700, 500))
+fig = plot(layout=(2, 1), size=(500, 400))
 plot!(fig, sizes, durs[:, 3:4], title="Discrete system with array input", subplot=1, legend=:topleft, labels=["CPU" "GPU"], ylabel="Time [ms]")
 plot!(fig, sizes, durs[:, 1:2], title="Continuous system with function input", subplot=2, legend=false, xlabel="State space size", ylabel="Time [ms]")
 savefig("lsim_speed.pdf")
