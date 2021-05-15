@@ -1,5 +1,6 @@
 using ControlSystems, CUDA, Plots, BenchmarkTools
 
+# Run benchmark on both system types for both CPU and GPU for fixed size of system
 function bench_sys_size(nx)
     nu = 10
     ny = 2
@@ -35,12 +36,14 @@ function bench_sys_size(nx)
     return map(x->time(minimum(x)) ./ 1e6, [t1, t2, t3, t4])
 end
 
+# Run this over a range of sizes
 sizes = 10:10:1000
 durs = Matrix{Float64}(undef, length(sizes), 4)
 for (i, n) in enumerate(sizes)
     durs[i, :] .= bench_sys_size(n)
 end
 
+# Plot everything
 𝕗 = (14, "Computer Modern")
 gr(titlefont=𝕗, tickfont=𝕗, legendfont=𝕗, guidefont=𝕗, grid=false)
 fig = plot(layout=(2, 1), size=(500, 400))
