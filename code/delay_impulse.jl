@@ -35,8 +35,8 @@ t = 0:0.1:20
 ytrue = dde_example_exact(t)
 ### Code part 1
 s = tf("s")
-sys = feedback(1/s,delay(1))
-impulseplot(sys, t)
+sys = feedback(1/s, delay(1))
+impulseplot(sys, t, label="\$ 1/(s+e^{-s}) \$")
 ### END Code part 1
 savefig("impulse-example.pdf")
 
