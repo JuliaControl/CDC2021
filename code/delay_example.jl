@@ -15,7 +15,7 @@ P0 = ss(-1, 1, 1, 0)
 # To verify the pole placement, use, e.g., dampreport(feedback(P0, C0))
 ω0 = 2
 ζ = 0.7
-C0 = placePI(P0, ω0, ζ)
+_, C0 = placePI(P0, ω0, ζ)
 
 ## Setup delayed plant + Smith predictor-based
 #  controller for a given delay τ
