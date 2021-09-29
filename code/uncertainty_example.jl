@@ -25,7 +25,7 @@ function cost(params)
     Ms = maximum(bode(S, Ω)[1]) # max sensitivity
     q  = pquantile(Ms, 0.9)
     perf = mean(abs, 1 .- y)
-    robust = (q > Msc ? 10000(q-Msc) : 0.0)    
+    robust = (q > Msc ? 10000(q-Msc) : zero(eltype(params)))    
     noise = pmean(sum(bode(CS, Ω[end-30:end])[1]))
     100pmean(perf) + robust + 0.002noise
 end
