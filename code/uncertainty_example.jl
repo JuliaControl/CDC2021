@@ -36,7 +36,7 @@ res = optimize(cost, params, Optim.Options(
 ))
 
 ## We can now perform the same computations as above to visualize the found controller
-using Plots.Measures
+using Plots, Plots.Measures
 𝕗 = (14, "Computer Modern")
 gr(titlefont=𝕗, tickfont=𝕗, legendfont=𝕗, guidefont=𝕗, grid=false)
 fig = plot(layout=2, size=(1000,400), bottommargin=2mm)
