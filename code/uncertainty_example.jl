@@ -25,7 +25,7 @@ function cost(params)
     Ms = maximum(bode(S, Ω)[1]) # max sensitivity
     q  = pquantile(Ms, 0.9)
     perf = mean(abs, 1 .- y)
-    robust = (q > Msc ? 10000(q-Msc) : 0.0)    
+    robust = (q > Msc ? 10000(q-Msc) : zero(eltype(params)))    
     noise = pmean(sum(bode(CS, Ω[end-30:end])[1]))
     100pmean(perf) + robust + 0.002noise
 end
@@ -36,7 +36,7 @@ res = optimize(cost, params, Optim.Options(
 ))
 
 ## We can now perform the same computations as above to visualize the found controller
-using Plots.Measures
+using Plots, Plots.Measures
 𝕗 = (14, "Computer Modern")
 gr(titlefont=𝕗, tickfont=𝕗, legendfont=𝕗, guidefont=𝕗, grid=false)
 fig = plot(layout=2, size=(1000,400), bottommargin=2mm)
