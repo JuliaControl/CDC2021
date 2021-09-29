@@ -13,3 +13,6 @@ Polynomials = "f27b6e38-b328-58d1-80ce-0feddd5e7a45"
 Statistics = "10745b16-79ce-11e8-11f9-7d13ad32a3b2"
 SymPy = "24249f21-da20-56a4-8eb1-6a02cf4ae2e6"
 Symbolics = "0c5d862f-8b57-4792-8d23-62f2024744c7"
+
+[compat]
+MonteCarloMeasurements = "1.0"

@@ -1,12 +1,12 @@
 using MonteCarloMeasurements, Optim, ControlSystems
 ±(m,s) = m + s*Particles(200)
 unsafe_comparisons(true)
-p = 1 ± 0.1
+p = 1   ± 0.1
 ζ = 0.3 ± 0.05
-ω = 1 ± 0.05
-const P = tf([p*ω], [1, 2ζ*ω, ω^2]) |> ss
-const Ω = exp10.(LinRange(-2,3,100))
-params = log.([1,0.1,0.1]) # Initial guess
+ω = 1   ± 0.05
+const P = ss(tf([p*ω], [1, 2ζ*ω, ω^2]))
+const Ω = exp10.(-2:0.04:3)
+params  = log.([1,0.1,0.1]) # Initial guess
 const Msc = 1.2 # Constraint on Ms
 
 function systems(params)
@@ -20,23 +20,20 @@ function systems(params)
     C, G, S, CS, y, t
 end
 
-function cost(params::AbstractVector{T}) where T
+function cost(params)
     C, G, S, CS, y, t = systems(params)
-    # Maximum of the sensitivity function
-    Ms = maximum(bode(S, Ω)[1]) 
-    q  = quantile(Ms, 0.9)
-    # This is our performance measure
-    performance = mean(abs, 1 .- y)   
-    # This is our robustness constraint
-    robustness = (q > Msc ? 10000(q-Msc) : zero(T)) 
-    # Penalty for high variance in performance
-    variance = std(performance)     
-    noise = mean(sum(bode(CS, Ω[end-30:end])[1]))
-    100mean(performance) + robustness +
-              10variance + 0.002noise
+    Ms = maximum(bode(S, Ω)[1]) # max sensitivity
+    q  = pquantile(Ms, 0.9)
+    perf = mean(abs, 1 .- y)
+    robust = (q > Msc ? 10000(q-Msc) : 0.0)    
+    noise = pmean(sum(bode(CS, Ω[end-30:end])[1]))
+    100pmean(perf) + robust + 0.002noise
 end
 
-res = optimize(cost, params)
+res = optimize(cost, params, Optim.Options(
+    show_trace        = true,
+    show_every        = 5,
+))
 
 ## We can now perform the same computations as above to visualize the found controller
 using Plots.Measures
