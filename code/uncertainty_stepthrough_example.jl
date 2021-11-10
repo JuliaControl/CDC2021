@@ -3,7 +3,7 @@ In this example we will work through some typical usage of the toolbox. We will 
 
 We start by defining a nominal model, visalize it's Bode diagram and perform a time-domain simulation
 =#
-using ControlSystems
+using ControlSystems, Plots
 p = 1  
 ζ = 0.3
 ω = 1  
@@ -24,9 +24,9 @@ plot!(Ω, mag, title="Sensitivity function", xscale=:log10, yscale=:log10, subpl
 
 
 #=
-Next, we try to tune the controller using optimization. We therefore package the creation of the systems above in a function that takes in controller parameters and outputs a cost function
+Next, we try to tune the controller using optimization. We therefore package the creation of the systems above in a function that takes in controller parameters and outputs a cost 
 =#
-using Optim
+using Optim, Statistics
 
 const Msc = 1.2 # Constraint on Ms
 
@@ -57,7 +57,7 @@ res = optimize(cost, params, Optim.Options(
 ))
 
 ## We can now perform the same computations as above to visualize the found controller
-using Plots, Plots.Measures
+using Plots.Measures
 𝕗 = (14, "Computer Modern")
 gr(titlefont=𝕗, tickfont=𝕗, legendfont=𝕗, guidefont=𝕗, grid=false)
 function plot_optimized(params, res)
@@ -114,9 +114,11 @@ cost(params)
 
 ## We can now perform the optimization and visualization again
 
-res = optimize(cost, params, Optim.Options(
+res2 = optimize(cost, params, Optim.Options(
     show_trace        = true,
     show_every        = 50,
 ))
-plot_optimized(params, res)
+plot_optimized(params, res2)
 # We should now hopefully see that the constraint on Ms is fulfilled for all realizations of the uncertain system.
+res.minimizer
+res2.minimizer
