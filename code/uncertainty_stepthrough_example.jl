@@ -114,11 +114,9 @@ cost(params)
 
 ## We can now perform the optimization and visualization again
 
-res2 = optimize(cost, params, Optim.Options(
+res = optimize(cost, params, Optim.Options(
     show_trace        = true,
     show_every        = 50,
 ))
-plot_optimized(params, res2)
+plot_optimized(params, res)
 # We should now hopefully see that the constraint on Ms is fulfilled for all realizations of the uncertain system.
-res.minimizer
-res2.minimizer
