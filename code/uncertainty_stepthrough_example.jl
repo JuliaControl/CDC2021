@@ -20,7 +20,7 @@ res = step(Gd,15)  # Step-response
 
 mag = bode(S, Ω)[1][:]
 plot(res, title="Time response", layout = 2, legend=:bottomright)
-plot!(Ω, mag, title="Sensitivity function", xscale=:log10, yscale=:log10, subplot=2, legend=:bottomright)
+plot!(Ω, mag, title="Sensitivity function", xscale=:log10, yscale=:log10, subplot=2, legend=:bottomright, ylims=(3e-2, Inf))
 
 
 #=
@@ -68,7 +68,7 @@ function plot_optimized(params, res)
         plot!(r, title="Time response", subplot=1, lab= i==1 ? "Initial" : "Optimized", legend=:bottomright)
         plot!(Ω, mag, title="Sensitivity function", xscale=:log10, yscale=:log10, subplot=2, lab= i==1 ? "Initial" : "Optimized", legend=:bottomright)
     end
-    hline!([Msc], l=(:black, :dash), subplot=2, lab="")
+    hline!([Msc], l=(:black, :dash), subplot=2, lab="", ylims=(3e-2, Inf))
     display(fig)
 end
 
